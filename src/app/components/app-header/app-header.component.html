@@ -1,0 +1,26 @@
+<ion-header class="app-header">
+  <ion-toolbar>
+    <div class="toolbar-start" slot="start">
+      <ion-back-button
+        *ngIf="showBackButton"
+        [defaultHref]="backHref"
+        text=""
+        class="header-icon-button"
+      ></ion-back-button>
+
+      <div class="header-brand">
+        <img
+          *ngIf="showLogo"
+          class="brand-logo"
+          src="assets/images/logo.png"
+          alt="WorldVisit"
+        />
+        <span class="brand-text">WorldVisit</span>
+      </div>
+    </div>
+
+    <ion-buttons slot="end" *ngIf="hasEndActions">
+      <ng-content select="[header-end]"></ng-content>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>

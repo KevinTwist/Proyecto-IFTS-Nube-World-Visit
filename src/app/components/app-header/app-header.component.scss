@@ -1,0 +1,46 @@
+.app-header ion-toolbar {
+  --background: var(--app-surface);
+  --color: var(--app-primary);
+  --border-color: var(--app-flag-outline);
+  --min-height: 4rem;
+  --padding-start: 0.5rem;
+  --padding-end: 0.5rem;
+}
+
+.toolbar-start {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.brand-logo {
+  width: 2.25rem;
+  height: 2.25rem;
+  flex-shrink: 0;
+  border-radius: 0.5rem;
+  object-fit: cover;
+  display: block;
+}
+
+.brand-text {
+  font-family: var(--app-font-family);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: var(--app-logo-color, var(--app-primary));
+  white-space: nowrap;
+}
+
+.header-icon-button {
+  --padding-start: 0;
+  --padding-end: 0;
+  --color: var(--app-primary);
+}

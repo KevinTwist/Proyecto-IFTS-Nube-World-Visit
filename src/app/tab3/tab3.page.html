@@ -1,0 +1,42 @@
+<app-header></app-header>
+
+<ion-content class="profile-page">
+  <div class="profile-container">
+
+    <div class="avatar-section">
+      <div class="avatar-wrapper">
+        <div class="avatar" [class.has-photo]="photoUrl">
+          <img *ngIf="photoUrl; else defaultAvatar" [src]="photoUrl" alt="Foto de perfil" />
+          <ng-template #defaultAvatar>
+            <ion-icon name="person"></ion-icon>
+          </ng-template>
+        </div>
+
+        <button
+          type="button"
+          class="camera-btn"
+          (click)="changePhoto()"
+          [disabled]="uploadingPhoto || !profileReady"
+          aria-label="Tomar o elegir foto de perfil"
+        >
+          <ion-icon name="camera"></ion-icon>
+        </button>
+      </div>
+
+      <p class="user-label">Usuario</p>
+      <h1 class="user-email">{{ email || 'Sin sesión' }}</h1>
+    </div>
+
+    <div class="favorites-pill">
+      <ion-icon name="heart" class="heart-icon"></ion-icon>
+      <span class="favorites-count">{{ favoritesCount }}</span>
+      <span class="favorites-text">Países Favoritos</span>
+    </div>
+
+    <ion-button expand="block" fill="outline" class="logout-btn" (click)="logout()">
+      <ion-icon name="log-out-outline" slot="start"></ion-icon>
+      Cerrar sesión
+    </ion-button>
+
+  </div>
+</ion-content>

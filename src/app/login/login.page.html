@@ -1,0 +1,50 @@
+<app-header></app-header>
+
+<ion-content class="login-page">
+
+  <div class="login-container">
+
+    <div class="brand">
+      <p>Inicia sesión para continuar tu aventura.</p>
+    </div>
+    <!-- (Evento Submit). Formulario con evento submit que llama a iniciarSesion() -->
+    <form class="login-form" (ngSubmit)="iniciarSesion()">
+      <!-- Campo de correo electrónico -->
+      <div class="input-wrapper"> <!-- Contenedor de entrada -->
+        <div class="input-box"> <!-- Input correo electrónico -->
+          <ion-icon name="mail" class="input-icon"></ion-icon> <!-- Icono de correo electrónico -->
+          <input class="input-native" type="email" placeholder="Correo electrónico" [(ngModel)]="email" name="email"
+            required />
+        </div>
+      </div>
+      <!-- Campo de contraseña -->
+      <div class="input-wrapper">
+        <div class="input-box"> <!-- Input de contraseña -->
+          <ion-icon name="lock-closed" class="input-icon"></ion-icon> <!-- Icono de contraseña (Candado - Cerrado)-->
+          <input class="input-native" [type]="mostrarPassword ? 'text' : 'password'" placeholder="Contraseña"
+            [(ngModel)]="password" name="password" required />
+          <button class="toggle-password" type="button" (click)="togglePassword()">
+            <ion-icon [name]="mostrarPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+            <!--icono de ojo abierto o cerrado según el estado de la contraseña. -->
+          </button>
+        </div>
+      </div>
+
+
+      <div class="forgot-wrapper">
+        <button class="forgot-password" type="button" (click)="olvidastePassword()">¿Olvidaste tu contraseña?</button>
+      </div>
+
+      <ion-button expand="block" type="submit" class="login-button">
+        Iniciar sesión
+      </ion-button>
+    </form>
+
+    <p class="register-text">
+      ¿No tienes una cuenta?
+      <button type="button" class="register-link" (click)="irARegistro()">Crear cuenta</button>
+    </p>
+
+  </div>
+
+</ion-content>

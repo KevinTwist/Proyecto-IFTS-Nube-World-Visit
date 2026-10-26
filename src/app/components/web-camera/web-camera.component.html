@@ -1,0 +1,72 @@
+<ion-header class="camera-header">
+  <ion-toolbar>
+    <ion-title>Cámara</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="cancel()" aria-label="Cerrar cámara">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="camera-content">
+  <div class="camera-stage">
+    <video
+      #videoEl
+      class="camera-video"
+      [class.mirrored]="facingMode === 'user'"
+      autoplay
+      muted
+      playsinline
+    ></video>
+
+    <div *ngIf="isLoading" class="camera-overlay">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p class="overlay-text">Solicitando permiso y abriendo la cámara...</p>
+    </div>
+
+    <div *ngIf="!isLoading && errorMessage" class="camera-overlay camera-error">
+      <ion-icon name="warning-outline"></ion-icon>
+      <p class="overlay-text">{{ errorMessage }}</p>
+      <ion-button fill="outline" color="light" (click)="startCamera()">
+        Reintentar
+      </ion-button>
+    </div>
+  </div>
+
+  <div class="camera-actions">
+    <ion-button fill="clear" color="light" (click)="triggerFilePicker()">
+      <ion-icon slot="start" name="folder-open-outline"></ion-icon>
+      Elegir archivo
+    </ion-button>
+
+    <button
+      type="button"
+      class="shutter-btn"
+      (click)="capture()"
+      [disabled]="isLoading || !!errorMessage || isCapturing"
+      aria-label="Tomar foto"
+    >
+      <span class="shutter-inner"></span>
+    </button>
+
+    <ion-button
+      fill="clear"
+      color="light"
+      [disabled]="isLoading || !hasMultipleCameras"
+      (click)="switchCamera()"
+    >
+      <ion-icon slot="start" name="camera-reverse-outline"></ion-icon>
+      Cambiar
+    </ion-button>
+  </div>
+
+  <input
+    #fileInput
+    type="file"
+    accept="image/*"
+    class="file-input"
+    (change)="onFileSelected($event)"
+  />
+</ion-content>

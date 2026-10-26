@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --app-font-family: 'Be Vietnam Pro', sans-serif;
+
+  --app-background: #f9f9f6;
+
+  --app-surface: #ffffff;
+  --app-surface-soft: #eeeeeb;
+  --app-surface-low: #f3f4f1;
+  --app-surface-lowest: #ffffff;
+  --app-surface-container: #eeeeeb;
+  --app-surface-container-high: #e8e8e5;
+  --app-surface-container-highest: #e2e3e0;
+
+  --app-primary: #316342;
+  --app-primary-container: #4a7c59;
+  --app-on-primary: #ffffff;
+  --app-on-primary-container: #e1ffe5;
+
+  --app-secondary: #7c572d;
+  --app-secondary-container: #fecb97;
+  --app-on-secondary: #ffffff;
+  --app-on-secondary-container: #79542a;
+  --app-secondary-fixed: #ffdcbc;
+  --app-secondary-fixed-dim: #efbd8a;
+
+  --app-tertiary: #575c3a;
+  --app-tertiary-container: #6f7550;
+  --app-on-tertiary: #ffffff;
+  --app-on-tertiary-container: #f6fcce;
+  --app-tertiary-fixed: #e0e6ba;
+  --app-tertiary-fixed-dim: #c4ca9f;
+
+  --app-text: #1a1c1a;
+  --app-text-muted: #414942;
+
+  --app-outline: #717971;
+  --app-outline-soft: #c1c9bf;
+  --app-outline-variant: #c1c9bf;
+
+  --app-flag-outline: #efefef;
+
+  --app-chip-bg: #f3f4f1;
+  --app-chip-text: #414942;
+  --app-chip-hover-bg: #e8e8e5;
+  --app-chip-shadow: rgba(74, 124, 89, 0.1);
+  --app-chip-active-bg: #316342;
+  --app-chip-active-text: #ffffff;
+
+  --app-favorite: #ba1a1a;
+  --app-favorite-bg: #ffdad6;
+
+  --app-shadow-soft: rgba(74, 124, 89, 0.1);
+  --app-shadow-hover: rgba(74, 124, 89, 0.15);
+
+  --app-on-background: #1a1c1a;
+  --app-inverse-surface: #2f312f;
+  --app-inverse-on-surface: #f1f1ee;
+  --app-inverse-primary: #9dd3aa;
+
+  --app-logo-color: #1e5031;
+
+  --app-empty-bg: #f3f4f1;
+
+  --app-on-surface-variant: #414942;
+}
+
+.dark {
+  --app-background: #1a1c1a;
+
+  --app-surface: #2f312f;
+  --app-surface-soft: #3a3c3a;
+  --app-surface-low: #242624;
+  --app-surface-lowest: #1a1c1a;
+  --app-surface-container: #3a3c3a;
+  --app-surface-container-high: #333533;
+  --app-surface-container-highest: #2f312f;
+
+  --app-primary: #9dd3aa;
+  --app-primary-container: #4a7c59;
+  --app-on-primary: #00210e;
+  --app-on-primary-container: #e1ffe5;
+
+  --app-secondary: #efbd8a;
+  --app-secondary-container: #614018;
+  --app-on-secondary: #2c1700;
+  --app-on-secondary-container: #fecb97;
+  --app-secondary-fixed: #614018;
+  --app-secondary-fixed-dim: #4a3012;
+
+  --app-tertiary: #c4ca9f;
+  --app-tertiary-container: #444a29;
+  --app-on-tertiary: #191e03;
+  --app-on-tertiary-container: #f6fcce;
+  --app-tertiary-fixed: #444a29;
+  --app-tertiary-fixed-dim: #363a20;
+
+  --app-text: #f1f1ee;
+  --app-text-muted: #c1c9bf;
+
+  --app-outline: #717971;
+  --app-outline-soft: #414942;
+  --app-outline-variant: #414942;
+
+  --app-flag-outline: #444a29;
+
+  --app-chip-bg: #3a3c3a;
+  --app-chip-text: #c1c9bf;
+  --app-chip-hover-bg: #444a29;
+  --app-chip-shadow: rgba(0, 0, 0, 0.15);
+  --app-chip-active-bg: #9dd3aa;
+  --app-chip-active-text: #00210e;
+
+  --app-favorite: #ffb4ab;
+  --app-favorite-bg: #93000a;
+
+  --app-shadow-soft: rgba(0, 0, 0, 0.3);
+  --app-shadow-hover: rgba(0, 0, 0, 0.4);
+
+  --app-on-background: #f1f1ee;
+  --app-inverse-surface: #e8e8e5;
+  --app-inverse-on-surface: #1a1c1a;
+  --app-inverse-primary: #316342;
+
+  --app-logo-color: #9dd3aa;
+
+  --app-empty-bg: #242624;
+
+  --app-on-surface-variant: #c1c9bf;
+}
+
+body {
+  min-height: 100dvh;
+  overflow-x: hidden;
+}

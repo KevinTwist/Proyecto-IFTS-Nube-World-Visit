@@ -1,0 +1,55 @@
+<app-header
+  *ngIf="country"
+  [showBackButton]="true"
+  [hasEndActions]="true"
+>
+  <ion-button
+    header-end
+    fill="clear"
+    class="header-icon-button favorite-header-button"
+    (click)="toggleFavorite()"
+  >
+    <ion-icon [name]="country.favorite ? 'heart' : 'heart-outline'"></ion-icon>
+  </ion-button>
+</app-header>
+
+<ion-content class="detail-page" *ngIf="country">
+  <section class="detail-container">
+    <div class="hero-flag">
+      <img [src]="country.flag" [alt]="country.name + ' flag'" />
+    </div>
+
+    <header class="country-heading">
+      <h1>{{ country.name }}</h1>
+      <p>{{ country.officialName }}</p>
+    </header>
+
+    <div class="detail-grid">
+      <ion-card class="detail-card" *ngFor="let item of detailItems">
+        <div class="detail-icon">
+          <ion-icon [name]="item.icon"></ion-icon>
+        </div>
+
+        <div class="detail-copy">
+          <span>{{ item.label }}</span>
+          <strong>{{ item.value }}</strong>
+        </div>
+      </ion-card>
+    </div>
+
+    <section class="facts-section" *ngIf="country.facts.length">
+      <h2>Datos interesantes</h2>
+      <ul>
+        <li *ngFor="let fact of country.facts">
+          <ion-icon name="checkmark-circle-outline"></ion-icon>
+          <span>{{ fact }}</span>
+        </li>
+      </ul>
+    </section>
+
+    <ion-button expand="block" type="button" class="favorite-action" (click)="toggleFavorite()">
+      <ion-icon [name]="country.favorite ? 'heart' : 'heart-outline'" slot="start"></ion-icon>
+      {{ country.favorite ? 'Quitar de favoritos' : 'Marcar como favorito' }}
+    </ion-button>
+  </section>
+</ion-content>

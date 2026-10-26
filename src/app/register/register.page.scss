@@ -1,0 +1,16 @@
+@import '../login/login.page.scss';
+
+.password-hint {
+  margin: -0.5rem 0 1rem;
+  font-size: 0.75rem;
+  color: var(--app-text-muted);
+  text-align: center;
+  line-height: 1.4;
+}
+
+.confirm-link-btn {
+  margin-top: 0.5rem;
+  --color: var(--app-primary);
+  font-size: 0.875rem;
+  text-transform: none;
+}

@@ -1,0 +1,172 @@
+.login-page {
+  --background: var(--app-background);
+}
+
+.login-page::part(scroll) {
+  background: var(--app-background);
+}
+
+.login-container {
+  min-height: 100%;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 2rem 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.brand {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.brand h1 {
+  margin: 0;
+  font-family: var(--app-font-family);
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--app-primary);
+}
+
+.brand p {
+  margin: 0.5rem 0 0;
+  font-family: var(--app-font-family);
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--app-text-muted);
+  text-align: center;
+  letter-spacing: 0.25px;
+}
+
+.login-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.input-wrapper {
+  width: 100%;
+}
+
+.input-box {
+  background: var(--app-surface-soft);
+  border-radius: 0.75rem 0.75rem 0 0;
+  border-bottom: 1px solid var(--app-outline);
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  height: 3.5rem;
+  transition: border-color 0.2s;
+}
+
+.input-box:focus-within {
+  border-bottom: 2px solid var(--app-primary);
+}
+
+.input-icon {
+  font-size: 1.4rem;
+  color: var(--app-text-muted);
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+}
+
+.input-native {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--app-font-family);
+  font-size: 1rem;
+  color: var(--app-text);
+  height: 100%;
+  padding: 0;
+}
+
+.input-native::placeholder {
+  color: var(--app-text-muted);
+}
+
+.toggle-password {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-left: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: var(--app-text-muted);
+}
+
+.toggle-password ion-icon {
+  font-size: 1.2rem;
+}
+
+.forgot-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
+}
+
+.forgot-password {
+  font-family: var(--app-font-family);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--app-primary);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.forgot-password:hover {
+  color: var(--app-primary-container);
+}
+
+.login-button {
+  width: 100%;
+  height: 3rem;
+  --background: var(--app-primary);
+  --background-activated: var(--app-primary-container);
+  --background-hover: var(--app-primary-container);
+  --color: var(--app-on-primary);
+  --border-radius: 9999px;
+  --box-shadow: 0 1px 3px rgba(74, 124, 89, 0.1);
+  margin-top: 0.25rem;
+  font-family: var(--app-font-family);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+  text-transform: none;
+}
+
+.register-text {
+  margin-top: 2rem;
+  font-family: var(--app-font-family);
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--app-text-muted);
+  text-align: center;
+}
+
+.register-link {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-left: 0.25rem;
+  font-family: var(--app-font-family);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--app-primary);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.register-link:hover {
+  color: var(--app-primary-container);
+}

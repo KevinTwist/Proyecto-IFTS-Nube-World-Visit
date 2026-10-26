@@ -1,0 +1,58 @@
+<app-header></app-header>
+
+<ion-content class="favorites-page">
+  <div class="favorites-container">
+    <div class="page-header">
+      <h1 class="page-title">Mis Favoritos</h1>
+      <p class="page-subtitle">Tus destinos guardados para futuras aventuras.</p>
+    </div>
+
+    <app-continent-filter
+      [selectedFilter]="selectedFilter"
+      (filterChange)="onFilterChange($event)"
+    ></app-continent-filter>
+
+    <div class="cards-grid" *ngIf="filteredFavorites.length > 0">
+      <article class="country-card" *ngFor="let item of filteredFavorites" (click)="viewDetails(item)">
+        <div class="card-image">
+          <img [src]="item.imageUrl" [alt]="item.name" />
+          <div class="image-overlay"></div>
+
+          <button class="favorite-btn" type="button" (click)="toggleFavorite(item, $event)">
+            <ion-icon name="heart"></ion-icon>
+          </button>
+
+          <span class="type-badge">{{ item.region }}</span>
+        </div>
+
+        <div class="card-body">
+          <h3>{{ item.name }}</h3>
+
+          <p class="card-description">{{ item.description }}</p>
+
+          <button class="detail-btn" type="button" (click)="viewDetails(item); $event.stopPropagation()">
+            Ver detalles
+          </button>
+        </div>
+      </article>
+    </div>
+
+    <section class="empty-state" *ngIf="filteredFavorites.length === 0">
+      <div class="empty-icon-wrapper">
+        <div class="pulse-bg"></div>
+        <ion-icon name="compass-outline" class="empty-icon"></ion-icon>
+        <div class="badge-favorite">
+          <ion-icon name="heart"></ion-icon>
+        </div>
+      </div>
+
+      <h2>Aun no tenes favoritos. Explora el mundo.</h2>
+      <p>
+        Descubri destinos y guardalos tocando el icono del corazon para planear tu
+        proximo viaje.
+      </p>
+
+      <button class="search-btn" type="button" (click)="goToExplore()">Buscar destinos</button>
+    </section>
+  </div>
+</ion-content>

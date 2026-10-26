@@ -1,0 +1,11 @@
+<div class="filters">
+  <button
+    class="filter-chip"
+    type="button"
+    *ngFor="let filter of filters"
+    [class.active]="selectedFilter === filter.value"
+    (click)="selectFilter(filter.value)"
+  >
+    {{ filter.label }}
+  </button>
+</div>

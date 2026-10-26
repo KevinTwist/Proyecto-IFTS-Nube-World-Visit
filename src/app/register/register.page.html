@@ -1,0 +1,114 @@
+<app-header></app-header>
+
+<ion-content class="login-page">
+
+  <div class="login-container">
+
+    <div class="brand">
+      <h1>Crear cuenta</h1>
+      <p *ngIf="paso === 'form'">Registrate para empezar tu aventura.</p>
+      <p *ngIf="paso === 'confirm'">Ingresa el código que enviamos a {{ email }}.</p>
+    </div>
+
+    <form *ngIf="paso === 'form'" class="login-form" (ngSubmit)="crearCuenta()">
+
+      <div class="input-wrapper">
+        <div class="input-box">
+          <ion-icon name="mail" class="input-icon"></ion-icon>
+          <input
+            class="input-native"
+            type="email"
+            placeholder="Correo electrónico"
+            [(ngModel)]="email"
+            name="email"
+            required />
+        </div>
+      </div>
+
+      <div class="input-wrapper">
+        <div class="input-box">
+          <ion-icon name="lock-closed" class="input-icon"></ion-icon>
+          <input
+            class="input-native"
+            [type]="mostrarPassword ? 'text' : 'password'"
+            placeholder="Contraseña"
+            [(ngModel)]="password"
+            name="password"
+            required />
+          <button class="toggle-password" type="button" (click)="togglePassword()">
+            <ion-icon [name]="mostrarPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+          </button>
+        </div>
+      </div>
+
+      <div class="input-wrapper">
+        <div class="input-box">
+          <ion-icon name="lock-closed" class="input-icon"></ion-icon>
+          <input
+            class="input-native"
+            [type]="mostrarConfirmPassword ? 'text' : 'password'"
+            placeholder="Confirmar contraseña"
+            autocomplete="new-password"
+            [(ngModel)]="confirmPassword"
+            name="confirmPassword"
+            required />
+          <button class="toggle-password" type="button" (click)="toggleConfirmPassword()">
+            <ion-icon [name]="mostrarConfirmPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+          </button>
+        </div>
+      </div>
+
+      <p class="password-hint">
+        Mínimo 8 caracteres, con mayúscula, minúscula, número y símbolo.
+      </p>
+
+      <ion-button expand="block" type="submit" class="login-button">
+        Crear cuenta
+      </ion-button>
+
+      <ion-button
+        expand="block"
+        fill="clear"
+        type="button"
+        class="confirm-link-btn"
+        (click)="irAConfirmacionManual()">
+        Ya me registré — ingresar código
+      </ion-button>
+    </form>
+
+    <form *ngIf="paso === 'confirm'" class="login-form" (ngSubmit)="confirmarCodigo()">
+
+      <div class="input-wrapper">
+        <div class="input-box">
+          <ion-icon name="key" class="input-icon"></ion-icon>
+          <input
+            class="input-native"
+            type="text"
+            placeholder="Código de verificación"
+            [(ngModel)]="confirmationCode"
+            name="confirmationCode"
+            required />
+        </div>
+      </div>
+
+      <ion-button expand="block" type="submit" class="login-button">
+        Confirmar cuenta
+      </ion-button>
+
+      <ion-button expand="block" fill="clear" type="button" (click)="reenviarCodigo()">
+        Reenviar código
+      </ion-button>
+
+      <ion-button expand="block" fill="clear" type="button" (click)="volverAlFormulario()">
+        Volver al registro
+      </ion-button>
+    </form>
+
+    <p class="register-text">
+      ¿Ya tienes cuenta?
+      <button type="button" class="register-link" (click)="irALogin()">Iniciar sesión</button>
+    </p>
+
+  </div>
+
+</ion-content>

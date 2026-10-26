@@ -1,0 +1,121 @@
+.camera-header ion-toolbar {
+  --background: #000000;
+  --color: #ffffff;
+  --border-color: transparent;
+}
+
+.camera-content {
+  --background: #000000;
+  --overflow: hidden;
+}
+
+.camera-content::part(scroll) {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.camera-stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #000000;
+}
+
+.camera-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.camera-video.mirrored {
+  transform: scaleX(-1);
+}
+
+.camera-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.72);
+  color: #ffffff;
+}
+
+.camera-overlay ion-spinner,
+.camera-overlay ion-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  color: #ffffff;
+}
+
+.camera-overlay ion-icon {
+  font-size: 2.5rem;
+}
+
+.overlay-text {
+  margin: 0;
+  max-width: 24rem;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.camera-error {
+  background: rgba(0, 0, 0, 0.86);
+}
+
+.camera-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 1rem 1.25rem calc(1rem + env(safe-area-inset-bottom));
+  background: #000000;
+}
+
+.camera-actions ion-button {
+  flex: 1;
+  min-width: 0;
+  text-transform: none;
+  font-size: 0.875rem;
+}
+
+.shutter-btn {
+  flex: 0 0 auto;
+  width: 4.5rem;
+  height: 4.5rem;
+  padding: 0.25rem;
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shutter-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.shutter-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #ffffff;
+  display: block;
+}
+
+.file-input {
+  display: none;
+}

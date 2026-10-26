@@ -1,0 +1,52 @@
+<app-header></app-header>
+
+<ion-content class="explore-page">
+  <div class="explore-container"> <!-- Contenedor de exploración -->
+    <div class="explore-header">
+      <h2>Explorar Paises</h2> <!-- Encabezado de la página de exploración -->
+      <p>Descubre tu proximo destino.</p> <!-- Párrafo.-->
+    </div>
+
+    <div class="search-wrapper">
+      <div class="search-box"> <!-- Caja de búsqueda -->
+        <ion-icon name="search-outline" class="search-icon"></ion-icon> <!-- Ícono de búsqueda -->
+        <input class="search-native" type="text" placeholder="Buscar por nombre o capital..."
+          [(ngModel)]="searchText" /> <!-- Guardar texto de búsqueda en la variable SearchText -->
+      </div>
+    </div>
+
+    <!-- Filtro continentes. -->
+    <app-continent-filter [selectedFilter]="selectedFilter"
+      (filterChange)="onFilterChange($event)"></app-continent-filter>
+
+    <!-- Filtro favoritos. -->
+    <div class="cards-grid">
+      <article class="country-card" *ngFor="let country of filteredCountries" (click)="viewDetails(country)">
+        <!--Evento click que llama a viewDetails() -->
+        <div class="card-left"> <!-- agrupa la bandera y la información del país-->
+          <div class="flag-wrapper">
+            <img class="flag-img" [src]="country.flag" [alt]="country.name + ' flag'" />
+            <!-- Muestra la bandera del país -->
+          </div>
+
+          <!-- Información del país: nombre y capital -->
+          <div class="card-info">
+            <h3>{{ country.name }}</h3>
+            <p>{{ country.capital }}</p>
+          </div>
+        </div>
+        <!-- Botón de favorito. Cambia su apariencia según el estado de favorito del país y llama a toggleFavorite() al hacer clic. -->
+        <button class="favorite-btn" type="button" [class.active]="country.favorite"
+          (click)="toggleFavorite(country, $event)"> <!-- (click) → Agrega o quita el país de favoritos.-->
+          <ion-icon [name]="country.favorite ? 'heart' : 'heart-outline'"></ion-icon>
+        </button>
+      </article>
+    </div>
+
+    <div class="empty-state" *ngIf="filteredCountries.length === 0">
+      <ion-icon name="search-outline" class="empty-icon"></ion-icon>
+      <p>No encontramos destinos con esos filtros.</p>
+      <!-- Si el usuario busca algo y no existe ningún país que coincida-->
+    </div>
+  </div>
+</ion-content>

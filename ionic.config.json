@@ -1,0 +1,7 @@
+{
+  "name": "worldvisit-sandbox",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
