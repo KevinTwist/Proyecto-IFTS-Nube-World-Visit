@@ -10,7 +10,6 @@ import { Subscription } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { Countries } from '../services/countries';
 import { ProfileService } from '../services/profile.service';
-import { isFirebaseConfigured } from '../config/firebase.config';
 import {
   WebCameraComponent,
   WebCameraResult,
@@ -68,20 +67,12 @@ export class Tab3Page implements ViewWillEnter, OnDestroy {
 
   /**
    * @function changePhoto
-   * @description Captura una nueva foto desde la camara web y la sube al storage del usuario.
+   * @description Captura una nueva foto desde la camara web y la sube al AWS S3 del usuario.
    * @returns `void`.
    */
   async changePhoto(): Promise<void> {
     if (!this.profileReady || !this.userId) {
       await this.showToast('Esperá a que cargue el perfil o iniciá sesión.', 'warning');
-      return;
-    }
-
-    if (!isFirebaseConfigured()) {
-      await this.showToast(
-        'Completá la configuración de Firebase en environment.ts para subir la foto.',
-        'warning'
-      );
       return;
     }
 
@@ -101,7 +92,7 @@ export class Tab3Page implements ViewWillEnter, OnDestroy {
     this.uploadingPhoto = true;
     this.setPreviewUrl(data.blob);
 
-    const loading = await this.loadingCtrl.create({ message: 'Subiendo foto a Firebase...' });
+    const loading = await this.loadingCtrl.create({ message: 'Subiendo foto a AWS S3...' });
     await loading.present();
 
     try {

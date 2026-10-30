@@ -205,7 +205,8 @@ export class AuthService {
     try {
       const user = await getCurrentUser();
       const attributes = await fetchUserAttributes();
-
+      console.log(user);
+      console.log(attributes);
       return {
         userId: user.userId,
         email: attributes.email ?? user.username,
