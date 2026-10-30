@@ -1,10 +1,10 @@
 export const environment = {
   production: true,
-  apiUrl:'https://4h6ni2ag08.execute-api.us-east-1.amazonaws.com/Prod',
+  apiUrl: 'https://4h6ni2ag08.execute-api.us-east-1.amazonaws.com/Prod',
   cognito: {
-    userPoolId: 'us-east-2_S8LNDKhzN',
-    userPoolClientId: '67pijbvu9lopi8k8a4s0m3gvle',
-    region: 'us-east-2',
+    userPoolId: 'us-east-1_NHvQJxTkD',
+    userPoolClientId: '3jh8m21ll6trq13pps4sse2ma2',
+    region: 'us-east-1',
   },
   firebase: {
     apiKey: "AIzaSyAoGeaKNh7lR7Y00EUwgwBYxN_woHNH-2Q",
