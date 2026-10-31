@@ -10,10 +10,6 @@ import { Tab3Page } from './tab3.page';
 
 import { AppHeaderModule } from '../components/app-header/app-header.module';
 
-import { WebCameraModule } from '../components/web-camera/web-camera.module';
-
-
-
 import { Tab3PageRoutingModule } from './tab3-routing.module';
 
 
@@ -30,8 +26,6 @@ import { Tab3PageRoutingModule } from './tab3-routing.module';
 
     AppHeaderModule,
 
-    WebCameraModule,
-
     Tab3PageRoutingModule
 
   ],
@@ -41,4 +35,3 @@ import { Tab3PageRoutingModule } from './tab3-routing.module';
 })
 
 export class Tab3PageModule {}
-

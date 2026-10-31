@@ -20,11 +20,5 @@ export function configureAmplify(): void {
         },
       },
     },
-    Storage: {
-      S3: {
-        bucket: 'word-visit-perfil',
-        region: 'us-east-1'
-      }
-    }
   });
 }

@@ -3,26 +3,7 @@
 <ion-content class="profile-page">
   <div class="profile-container">
 
-    <div class="avatar-section">
-      <div class="avatar-wrapper">
-        <div class="avatar" [class.has-photo]="photoUrl">
-          <img *ngIf="photoUrl; else defaultAvatar" [src]="photoUrl" alt="Foto de perfil" />
-          <ng-template #defaultAvatar>
-            <ion-icon name="person"></ion-icon>
-          </ng-template>
-        </div>
-
-        <button
-          type="button"
-          class="camera-btn"
-          (click)="changePhoto()"
-          [disabled]="uploadingPhoto || !profileReady"
-          aria-label="Tomar o elegir foto de perfil"
-        >
-          <ion-icon name="camera"></ion-icon>
-        </button>
-      </div>
-
+    <div class="user-section">
       <p class="user-label">Usuario</p>
       <h1 class="user-email">{{ email || 'Sin sesión' }}</h1>
     </div>
