@@ -18,7 +18,8 @@
           <img [src]="item.imageUrl" [alt]="item.name" />
           <div class="image-overlay"></div>
 
-          <button class="favorite-btn" type="button" (click)="toggleFavorite(item, $event)">
+          <button class="favorite-btn" type="button" [disabled]="isSavingFavorite(item.id)"
+            (click)="toggleFavorite(item, $event)">
             <ion-icon name="heart"></ion-icon>
           </button>
 

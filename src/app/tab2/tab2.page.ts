@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastController, ViewWillEnter } from '@ionic/angular';
 import {
   ContinentFilterValue,
   filterByContinent,
 } from '../components/continent-filter/continent-filter.constants';
 import { Countries, Country } from '../services/countries';
+import { FavoritesApiService } from '../services/favorites-api.service';
 
 @Component({
   selector: 'app-tab2',
@@ -12,18 +14,31 @@ import { Countries, Country } from '../services/countries';
   styleUrls: ['tab2.page.scss'],
   standalone: false,
 })
-export class Tab2Page {
+export class Tab2Page implements ViewWillEnter {
   selectedFilter: ContinentFilterValue = 'all';
   favoriteItems: Country[] = [];
 
-  constructor(
-    private countriesService: Countries,
-    private router: Router
-  ) {
+  private readonly savingFavoriteIds = new Set<string>();
+
+  private readonly countriesService = inject(Countries);
+  private readonly router = inject(Router);
+  private readonly favoritesApi = inject(FavoritesApiService);
+  private readonly toastCtrl = inject(ToastController);
+
+  constructor() {
     this.favoriteItems = this.countriesService.getFavorites();
     this.countriesService.countries$.subscribe(() => {
       this.favoriteItems = this.countriesService.getFavorites();
     });
+  }
+
+  /**
+   * @function ionViewWillEnter
+   * @description Refresca los favoritos del usuario desde AWS al abrir la pestaña.
+   * @returns `void`.
+   */
+  ionViewWillEnter(): void {
+    void this.countriesService.loadFavoritesFromApi();
   }
 
   /**
@@ -46,15 +61,46 @@ export class Tab2Page {
   }
 
   /**
+   * @function isSavingFavorite
+   * @description Indica si un favorito esta siendo actualizado en AWS.
+   * @param id Identificador del pais.
+   * @returns `true` mientras la peticion esta en curso.
+   */
+  isSavingFavorite(id: string): boolean {
+    return this.savingFavoriteIds.has(id);
+  }
+
+  /**
    * @function toggleFavorite
-   * @description Quita/agrega un pais de favoritos desde la lista guardada.
+   * @description Agrega o elimina el favorito en AWS y actualiza la lista local.
    * @param item Pais seleccionado.
    * @param event Evento opcional para evitar propagacion al contenedor clickeable.
    * @returns `void`.
    */
-  toggleFavorite(item: Country, event?: Event): void {
+  async toggleFavorite(item: Country, event?: Event): Promise<void> {
     event?.stopPropagation();
-    this.countriesService.toggleFavorite(item.id);
+
+    if (this.savingFavoriteIds.has(item.id)) {
+      return;
+    }
+
+    this.savingFavoriteIds.add(item.id);
+
+    try {
+      if (item.favorite) {
+        await this.favoritesApi.deleteFavorite(item.id);
+      } else {
+        await this.favoritesApi.addFavorite(item.id);
+      }
+
+      this.countriesService.toggleFavorite(item.id);
+    } catch (error) {
+      await this.showToast(
+        error instanceof Error ? error.message : 'No se pudo actualizar el favorito en AWS.'
+      );
+    } finally {
+      this.savingFavoriteIds.delete(item.id);
+    }
   }
 
   /**
@@ -74,6 +120,23 @@ export class Tab2Page {
    */
   viewDetails(item: Country): void {
     this.router.navigate(['/detail', item.id]);
+  }
+
+  /**
+   * @function showToast
+   * @description Muestra un mensaje breve cuando falla la actualizacion del favorito.
+   * @param message Texto a mostrar.
+   * @returns `void`.
+   */
+  private async showToast(message: string): Promise<void> {
+    const toast = await this.toastCtrl.create({
+      message,
+      duration: 3000,
+      color: 'danger',
+      position: 'top',
+    });
+
+    await toast.present();
   }
 }
 
