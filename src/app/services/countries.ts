@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { CountriesApiService, RestCountry } from './countries-api.service';
+import { FavoritesApiService } from './favorites-api.service';
 
 export type Continent = 'europe' | 'asia' | 'america' | 'africa' | 'oceania';
 
@@ -35,7 +36,6 @@ export interface CountryDetailItem {
 })
 export class Countries {
   private readonly storageKey = 'worldvisit:countries';
-  private readonly favoriteIdsKey = 'worldvisit:favorite-country-ids';
 
   private readonly initialCountries: Country[] = [
     {
@@ -163,7 +163,12 @@ export class Countries {
   readonly loading$ = this.loadingSubject.asObservable();
   readonly error$ = this.errorSubject.asObservable();
 
-  constructor(private countriesApi: CountriesApiService) {
+  private favoritesRequest?: Promise<void>;
+
+  private readonly countriesApi = inject(CountriesApiService);
+  private readonly favoritesApi = inject(FavoritesApiService);
+
+  constructor() {
     this.loadFromApi();
   }
 
@@ -178,21 +183,61 @@ export class Countries {
 
     this.countriesApi.getAllCountries().subscribe({
       next: (restCountries) => {
-        const favoriteIds = this.loadFavoriteIds();
         const countries = restCountries
-          .map((country) => this.mapRestCountry(country, favoriteIds))
+          .map((country) => this.mapRestCountry(country))
           .filter((country): country is Country => Boolean(country))
           .sort((a, b) => a.name.localeCompare(b.name));
 
         this.saveCountries(countries);
         this.countriesSubject.next(countries);
         this.loadingSubject.next(false);
+        void this.loadFavoritesFromApi();
       },
       error: () => {
         this.errorSubject.next('No pudimos cargar paises desde la API. Mostramos datos guardados.');
         this.loadingSubject.next(false);
+        void this.loadFavoritesFromApi();
       },
     });
+  }
+
+  /**
+   * @function loadFavoritesFromApi
+   * @description Sincroniza los favoritos del usuario autenticado con AWS y actualiza el estado local.
+   * @returns Promesa resuelta cuando los favoritos fueron aplicados o cuando no hay sesion valida.
+   */
+  loadFavoritesFromApi(): Promise<void> {
+    if (this.favoritesRequest) {
+      return this.favoritesRequest;
+    }
+
+    this.favoritesRequest = this.fetchFavorites().finally(() => {
+      this.favoritesRequest = undefined;
+    });
+
+    return this.favoritesRequest;
+  }
+
+  /**
+   * @function fetchFavorites
+   * @description Consulta los IDs favoritos en AWS y los aplica sobre el listado actual de paises.
+   * @returns Promesa resuelta cuando el estado local refleja la base de datos.
+   */
+  private async fetchFavorites(): Promise<void> {
+    try {
+      const favoriteIds = await this.favoritesApi.getFavoriteIds();
+      const favoriteIdSet = new Set(favoriteIds);
+      const countries = this.getCountries().map((country) => ({
+        ...country,
+        favorite: favoriteIdSet.has(country.id),
+      }));
+
+      this.countriesSubject.next(countries);
+    } catch {
+      this.countriesSubject.next(
+        this.getCountries().map((country) => ({ ...country, favorite: false }))
+      );
+    }
   }
 
   /**
@@ -225,7 +270,7 @@ export class Countries {
 
   /**
    * @function toggleFavorite
-   * @description Cambia el estado favorito de un pais y persiste cambios en almacenamiento local.
+   * @description Cambia el estado favorito de un pais en memoria; AWS es la fuente de verdad.
    * @param id Identificador del pais a actualizar.
    * @returns `void`.
    */
@@ -234,8 +279,6 @@ export class Countries {
       country.id === id ? { ...country, favorite: !country.favorite } : country
     );
 
-    this.saveFavoriteIds(countries);
-    this.saveCountries(countries);
     this.countriesSubject.next(countries);
   }
 
@@ -264,11 +307,18 @@ export class Countries {
    */
   private loadCountries(): Country[] {
     const saved = localStorage.getItem(this.storageKey);
+    const countries = saved ? this.parseCountries(saved) : this.initialCountries;
 
-    if (!saved) {
-      return this.initialCountries;
-    }
+    return countries.map((country) => ({ ...country, favorite: false }));
+  }
 
+  /**
+   * @function parseCountries
+   * @description Convierte el cache local de paises en datos validos o usa el dataset inicial.
+   * @param saved JSON persistido en localStorage.
+   * @returns Listado de paises sin estado de favoritos local.
+   */
+  private parseCountries(saved: string): Country[] {
     try {
       return JSON.parse(saved) as Country[];
     } catch {
@@ -288,48 +338,12 @@ export class Countries {
   }
 
   /**
-   * @function loadFavoriteIds
-   * @description Recupera identificadores favoritos persistidos o los deriva desde el dataset local.
-   * @returns Arreglo de IDs marcados como favoritos.
-   */
-  private loadFavoriteIds(): string[] {
-    const savedIds = localStorage.getItem(this.favoriteIdsKey);
-
-    if (savedIds) {
-      try {
-        return JSON.parse(savedIds) as string[];
-      } catch {
-        localStorage.removeItem(this.favoriteIdsKey);
-      }
-    }
-
-    return this.loadCountries()
-      .filter((country) => country.favorite)
-      .map((country) => country.id);
-  }
-
-  /**
-   * @function saveFavoriteIds
-   * @description Persiste solo los IDs favoritos para restaurarlos luego de refrescos de API.
-   * @param countries Coleccion completa desde la cual se extraen favoritos.
-   * @returns `void`.
-   */
-  private saveFavoriteIds(countries: Country[]): void {
-    const favoriteIds = countries
-      .filter((country) => country.favorite)
-      .map((country) => country.id);
-
-    localStorage.setItem(this.favoriteIdsKey, JSON.stringify(favoriteIds));
-  }
-
-  /**
    * @function mapRestCountry
    * @description Mapea un registro de Rest Countries al modelo de negocio `Country`.
    * @param country Pais crudo recibido desde la API externa.
-   * @param favoriteIds IDs previamente marcados como favoritos.
    * @returns Pais normalizado o `null` si faltan datos minimos.
    */
-  private mapRestCountry(country: RestCountry, favoriteIds: string[]): Country | null {
+  private mapRestCountry(country: RestCountry): Country | null {
     const name = country.names?.translations?.['spa']?.common || country.names?.common;
 
     if (!name) {
@@ -373,7 +387,7 @@ export class Countries {
           country.population ? country.population.toLocaleString('es-AR') : 'sin datos'
         }.`,
       ],
-      favorite: favoriteIds.includes(id),
+      favorite: false,
     };
   }
 

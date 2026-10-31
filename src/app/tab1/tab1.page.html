@@ -37,7 +37,7 @@
         </div>
         <!-- Botón de favorito. Cambia su apariencia según el estado de favorito del país y llama a toggleFavorite() al hacer clic. -->
         <button class="favorite-btn" type="button" [class.active]="country.favorite"
-          (click)="toggleFavorite(country, $event)"> <!-- (click) → Agrega o quita el país de favoritos.-->
+          [disabled]="isSavingFavorite(country.id)" (click)="toggleFavorite(country, $event)"> <!-- (click) → Agrega o quita el país de favoritos.-->
           <ion-icon [name]="country.favorite ? 'heart' : 'heart-outline'"></ion-icon>
         </button>
       </article>
